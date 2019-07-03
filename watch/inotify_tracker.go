@@ -175,10 +175,14 @@ func (shared *InotifyTracker) removeWatch(winfo *watchInfo) error {
 		// Watch for new files to be created in the parent directory.
 		fname = filepath.Dir(fname)
 	}
-	shared.watchNums[fname]--
-	watchNum := shared.watchNums[fname]
-	if watchNum == 0 {
-		delete(shared.watchNums, fname)
+	// guard against decrementing past 0
+	watchNum := -1
+	if _, ok := shared.watchNums[fname]; ok {
+		shared.watchNums[fname]--
+		watchNum = shared.watchNums[fname]
+		if watchNum == 0 {
+			delete(shared.watchNums, fname)
+		}
 	}
 	shared.mux.Unlock()
 
