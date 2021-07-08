@@ -435,6 +435,28 @@ func reSeek(t *testing.T, poll bool) {
 	tailTest.Cleanup(tail, false)
 }
 
+func TestPermissionChange(t *testing.T) {
+	tailTest := NewTailTest("change-permission", t)
+	tailTest.CreateFile("test.txt", "a really long string goes here\nhello\nworld\n")
+
+	tail := tailTest.StartTail(
+		"test.txt",
+		Config{Follow: true, ReOpen: true, Poll: false})
+
+	<-time.After(100 * time.Millisecond)
+
+	content := []string{"a really long string goes here", "hello", "world"}
+	go tailTest.VerifyTailOutput(tail, content, false)
+
+	tailTest.ChangeFilePermssions("test.txt", 0200)
+
+	<-time.After(100 * time.Millisecond)
+
+	tailTest.ChangeFilePermssions("test.txt", 0600)
+
+	tailTest.Cleanup(tail, true)
+}
+
 // Test library
 
 type TailTest struct {
@@ -479,6 +501,14 @@ func (t TailTest) RenameFile(oldname string, newname string) {
 	oldname = t.path + "/" + oldname
 	newname = t.path + "/" + newname
 	err := os.Rename(oldname, newname)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func (t TailTest) ChangeFilePermssions(name string, mode os.FileMode) {
+	fPath := t.path + "/" + name
+	err := os.Chmod(fPath, mode)
 	if err != nil {
 		t.Fatal(err)
 	}

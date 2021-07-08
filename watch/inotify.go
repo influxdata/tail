@@ -116,6 +116,12 @@ func (fw *InotifyFileWatcher) ChangeEvents(t *tomb.Tomb, pos int64) (*FileChange
 						changes.NotifyDeleted()
 						return
 					}
+
+					if os.IsPermission(err) {
+						util.LOGGER.Printf("Permission error on file %v: %v\n", fw.Filename, err)
+						continue
+					}
+
 					// XXX: report this error back to the user
 					util.Fatal("Failed to stat file %v: %v", fw.Filename, err)
 				}
