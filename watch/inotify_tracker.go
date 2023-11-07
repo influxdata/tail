@@ -10,8 +10,7 @@ import (
 	"sync"
 	"syscall"
 
-	"gopkg.in/fsnotify.v1"
-
+	"github.com/fsnotify/fsnotify"
 	"github.com/influxdata/tail/util"
 )
 
