@@ -1,28 +1,45 @@
-[![Build Status](https://travis-ci.org/hpcloud/tail.svg)](https://travis-ci.org/hpcloud/tail)
-[![Build status](https://ci.appveyor.com/api/projects/status/vrl3paf9md0a7bgk/branch/master?svg=true)](https://ci.appveyor.com/project/Nino-K/tail/branch/master)
+[![Go Reference](https://pkg.go.dev/badge/github.com/nxadm/tail.svg)](https://pkg.go.dev/github.com/nxadm/tail#section-documentation)
+![ci](https://github.com/nxadm/tail/workflows/ci/badge.svg)
+[![FreeBSD](https://api.cirrus-ci.com/github/nxadm/tail.svg)](https://cirrus-ci.com/github/nxadm/tail)
+# tail functionality in Go
 
-# Go package for tail-ing files
+nxadm/tail provides a Go library that emulates the features of the BSD `tail`
+program. The library comes with full support for truncation/move detection as
+it is designed to work with log rotation tools. The library works on all
+operating systems supported by Go, including POSIX systems like Linux, *BSD,
+MacOS, and MS Windows. Go 1.12 is the oldest compiler release supported.
 
-A Go package striving to emulate the features of the BSD `tail` program. 
+A simple example:
 
 ```Go
-t, err := tail.TailFile("/var/log/nginx.log", tail.Config{Follow: true})
+// Create a tail
+t, err := tail.TailFile(
+	"/var/log/nginx.log", tail.Config{Follow: true, ReOpen: true})
+if err != nil {
+    panic(err)
+}
+
+// Print the text of each received line
 for line := range t.Lines {
     fmt.Println(line.Text)
 }
 ```
 
-See [API documentation](http://godoc.org/github.com/hpcloud/tail).
-
-## Log rotation
-
-Tail comes with full support for truncation/move detection as it is
-designed to work with log rotation tools.
+See [API documentation](https://pkg.go.dev/github.com/nxadm/tail#section-documentation).
 
 ## Installing
 
-    go get github.com/hpcloud/tail/...
+    go get github.com/nxadm/tail/...
 
-## Windows support
+## History
 
-This package [needs assistance](https://github.com/hpcloud/tail/labels/Windows) for full Windows support.
+This project is an active, drop-in replacement for the
+[abandoned](https://en.wikipedia.org/wiki/HPE_Helion) Go tail library at
+[hpcloud](https://github.com/hpcloud/tail). Next to
+[addressing open issues/PRs of the original project](https://github.com/nxadm/tail/issues/6),
+nxadm/tail continues the development by keeping up to date with the Go toolchain
+(e.g. go modules) and dependencies, completing the documentation, adding features
+and fixing bugs.
+
+## Examples
+Examples, e.g. used to debug an issue, are kept in the [examples directory](/examples).

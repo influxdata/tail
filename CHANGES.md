@@ -1,63 +1,64 @@
-# API v1 (gopkg.in/hpcloud/tail.v1)
+# Version v1.4.11
+* Bump fsnotify to v1.6.0. Should fix some issues.
 
-## April, 2016
+# Version v1.4.9
+* Bump fsnotify to v1.5.1 fixes issue #28, hpcloud/tail#90.
+* PR #27: "Add timeout to tests"by @kokes++. Also timeout on FreeBSD.
+* PR #29: "Use temp directory for tests, instead of relative" by @ches++.
 
-* Migrated to godep, as depman is not longer supported
-* Introduced golang vendoring feature
-* Fixed issue [#57](https://github.com/hpcloud/tail/issues/57) related to reopen deleted file 
+# Version v1.4.7-v1.4.8
+* Documentation updates.
+* Small linter cleanups.
+* Added example in test.
 
-## July, 2015
+# Version v1.4.6
 
-* Fix inotify watcher leak; remove `Cleanup` (#51)
+* Document the usage of Cleanup when re-reading a file (thanks to @lesovsky) for issue #18.
+* Add example directories with example and tests for issues.
 
-# API v0 (gopkg.in/hpcloud/tail.v0)
+# Version v1.4.4-v1.4.5
 
-## June, 2015
+* Fix of checksum problem because of forced tag. No changes to the code.
 
-* Don't return partial lines (PR #40)
-* Use stable version of fsnotify (#46)
+# Version v1.4.1
 
-## July, 2014
+* Incorporated PR 162 by by Mohammed902: "Simplify non-Windows build tag".
 
-* Fix tail for Windows (PR #36)
+# Version v1.4.0
 
-## May, 2014
+* Incorporated PR 9 by mschneider82: "Added seekinfo to Tail".
 
-* Improved rate limiting using leaky bucket (PR #29)
-* Fix odd line splitting (PR #30)
+# Version v1.3.1
 
-## Apr, 2014
+* Incorporated PR 7: "Fix deadlock when stopping on non-empty file/buffer",
+fixes upstream issue 93.
 
-* LimitRate now discards read buffer (PR #28)
-* allow reading of longer lines if MaxLineSize is unset (PR #24)
-* updated deps.json to latest fsnotify (441bbc86b1)
 
-## Feb, 2014
+# Version v1.3.0
 
-* added `Config.Logger` to suppress library logging
+* Incorporated changes of unmerged upstream PR 149 by mezzi: "added line num
+to Line struct".
 
-## Nov, 2013
+# Version v1.2.1
 
-* add Cleanup to remove leaky inotify watches (PR #20)
+* Incorporated changes of unmerged upstream PR 128 by jadekler: "Compile-able
+code in readme".
+* Incorporated changes of unmerged upstream PR 130 by fgeller: "small change
+to comment wording".
+* Incorporated changes of unmerged upstream PR 133 by sm3142: "removed
+spurious newlines from log messages".
 
-## Aug, 2013
+# Version v1.2.0
 
-* redesigned Location field (PR #12)
-* add tail.Tell (PR #14)
+* Incorporated changes of unmerged upstream PR 126 by Code-Hex: "Solved the
+ problem for never return the last line if it's not followed by a newline".
+* Incorporated changes of unmerged upstream PR 131 by StoicPerlman: "Remove
+deprecated os.SEEK consts". The changes bumped the minimal supported Go
+release to 1.9.
 
-## July, 2013
+# Version v1.1.0
 
-* Rate limiting (PR #10)
+* migration to go modules.
+* release of master branch of the dormant upstream, because it contains
+fixes and improvement no present in the tagged release.
 
-## May, 2013
-
-* Detect file deletions/renames in polling file watcher (PR #1)
-* Detect file truncation
-* Fix potential race condition when reopening the file (issue 5)
-* Fix potential blocking of `tail.Stop` (issue 4)
-* Fix uncleaned up ChangeEvents goroutines after calling tail.Stop
-* Support Follow=false
-
-## Feb, 2013
-
-* Initial open source release

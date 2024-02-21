@@ -1,3 +1,4 @@
+// Copyright (c) 2019 FOSS contributors of https://github.com/nxadm/tail
 // Copyright (c) 2015 HPE Software Inc. All rights reserved.
 // Copyright (c) 2013 ActiveState Software Inc. All rights reserved.
 
@@ -9,7 +10,7 @@ import (
 	"path/filepath"
 	"sync/atomic"
 
-	"gopkg.in/fsnotify.v1"
+  "github.com/fsnotify/fsnotify"
 	"gopkg.in/tomb.v1"
 
 	"github.com/influxdata/tail/util"
@@ -107,6 +108,11 @@ func (fw *InotifyFileWatcher) ChangeEvents(t *tomb.Tomb, pos int64) (*FileChange
 
 			//With an open fd, unlink(fd) - inotify returns IN_ATTRIB (==fsnotify.Chmod)
 			case evt.Op&fsnotify.Chmod == fsnotify.Chmod:
+				if _, err := os.Stat(fw.Filename); err != nil {
+					if !os.IsNotExist(err) {
+						return
+					}
+				}
 				fallthrough
 
 			case evt.Op&fsnotify.Write == fsnotify.Write:
