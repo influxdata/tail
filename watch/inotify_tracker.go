@@ -10,8 +10,7 @@ import (
 	"sync"
 	"syscall"
 
-	"gopkg.in/fsnotify.v1"
-
+	"github.com/fsnotify/fsnotify"
 	"github.com/influxdata/tail/util"
 )
 
@@ -229,7 +228,7 @@ func (shared *InotifyTracker) sendEvent(event fsnotify.Event) {
 func (shared *InotifyTracker) run() {
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
-		util.Fatal("failed to create Watcher")
+		util.Fatal("failed to create Watcher: %v", err)
 	}
 	shared.watcher = watcher
 

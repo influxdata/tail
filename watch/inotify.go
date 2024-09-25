@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"sync/atomic"
 
-	"gopkg.in/fsnotify.v1"
 	"gopkg.in/tomb.v1"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/influxdata/tail/util"
 )
 
